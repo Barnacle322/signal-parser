@@ -16,6 +16,7 @@ options = Options()
 options.add_argument(
     "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
 )
+options.add_argument("--blink-settings=imagesEnabled=false")
 
 
 def get_parse_signal():
@@ -24,7 +25,7 @@ def get_parse_signal():
 
     driver.get("https://signal.nfx.com/investor-lists/top-fintech-seed-investors")
 
-    for _ in range(600):
+    for index in range(600):
         try:
             load_more_button = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable(
@@ -36,10 +37,11 @@ def get_parse_signal():
             )
             load_more_button.click()
 
-            sleep(5)
+            sleep(2)
         except Exception as e:
             print(f"An error occurred: {e}")
             break
+        print(f"Page: {index + 1}")
 
     response = driver.page_source
 
